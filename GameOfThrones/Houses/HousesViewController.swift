@@ -7,9 +7,9 @@
 
 import UIKit
 
-class HousesViewController: RootViewController, UITableViewDataSource, UITableViewDelegate {
+final class HousesViewController: RootViewController, UITableViewDataSource, UITableViewDelegate {
     
-    private var housesViewModel: HousesViewModelType = HousesViewModel()
+    private var housesViewModel: HousesViewModelType
     private let searchController = UISearchController(searchResultsController: nil)
     
     private let tableView: UITableView = {
@@ -26,11 +26,19 @@ class HousesViewController: RootViewController, UITableViewDataSource, UITableVi
         return imageView
     }()
     
+    init(viewModel: HousesViewModelType = HousesViewModel()) {
+         self.housesViewModel = viewModel
+         super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackgroundImage()
         setupTableView()
-        
         setUpSearchController()
         setupConstraints()
 
@@ -73,7 +81,7 @@ class HousesViewController: RootViewController, UITableViewDataSource, UITableVi
     }
     
     func loadData(houses: [House]) {
-        housesViewModel.setUp(houses: houses) // Use the setUp method
+        housesViewModel.setUp(houses: houses) 
         reload(tableView: tableView)
         stopActivityIndicator()
     }

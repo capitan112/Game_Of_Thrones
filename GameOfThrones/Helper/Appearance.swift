@@ -13,7 +13,6 @@ class Appearance {
         // Tab Bar Appearance
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .black
-    
         UITabBar.appearance().tintColor = UIColor(named: "TabBarTintColor")
         UITabBar.appearance().backgroundColor = .black
         

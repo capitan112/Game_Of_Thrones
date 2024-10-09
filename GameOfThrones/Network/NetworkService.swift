@@ -16,22 +16,40 @@ enum NetworkError: Error {
     case badUrl
     case decodingError(Error)
     case networkError(Error)
+    case invalidStatusCode(Int)
+    case noData
 }
 
 class NetworkService: NetworkServiceProtocol {
     
+    private let decoderService: JSONDecoderServiceProtocol
+    
+    init(decoderService: JSONDecoderServiceProtocol = JSONDecoderService()) {
+        self.decoderService = decoderService
+    }
+    
     func fetchHouses() throws -> Promise<[House]> {
-        guard let url = URL(string: "https://anapioficeandfire.com/api/houses") else {
+        
+        guard let url = urlFromParameters(path: RequestConstant.Endpoints.houses) else {
             throw NetworkError.badUrl
         }
         
-        return fetch(with: url)
+        return fetch(from: url)
     }
     
-    
-    private func fetch<T: Decodable>(with url: URL) -> Promise<[T]> {
-        return Promise { seal in
+    private func urlFromParameters(path: String) -> URL? {
+        guard !path.isEmpty else { return nil }
         
+        var components = URLComponents()
+        components.scheme = RequestConstant.Server.scheme
+        components.host = RequestConstant.Server.host
+        components.path = path
+        
+        return components.url
+    }
+    
+    private func fetch<T: Decodable>(from url: URL) -> Promise<[T]> {
+        return Promise { seal in
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let error = error {
                     seal.reject(NetworkError.networkError(error))
@@ -39,26 +57,17 @@ class NetworkService: NetworkServiceProtocol {
                 }
                 
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                     seal.reject(NetworkError.networkError(NSError(domain: "",
-                                                                   code: httpResponse.statusCode,
-                                                                   userInfo: [NSLocalizedDescriptionKey: "Invalid status code: \(httpResponse.statusCode)"])))
-                     return
-                }
-                
-                guard let data = data else {
-                    seal.reject(NetworkError.networkError(NSError(domain: "",
-                                                                  code: -1,
-                                                                  userInfo: [NSLocalizedDescriptionKey: "No data"])))
+                    seal.reject(NetworkError.invalidStatusCode(httpResponse.statusCode))
                     return
                 }
                 
-
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+                guard let data = data else {
+                    seal.reject(NetworkError.noData)
+                    return
+                }
                 
                 do {
-                    let result = try decoder.decode([T].self, from: data)
+                    let result: [T] = try self.decoderService.decode(data, as: [T].self)
                     seal.fulfill(result)
                 } catch {
                     seal.reject(NetworkError.decodingError(error))

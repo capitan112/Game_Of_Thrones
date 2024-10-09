@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HouseViewModelCell {
+final class HouseViewModelCell {
     private(set) var name: String
     private(set) var region: String
     private(set) var words: String
@@ -20,7 +20,7 @@ class HouseViewModelCell {
     }
 }
 
-class HouseTableViewCell: UITableViewCell {
+final class HouseTableViewCell: UITableViewCell {
     static let reuseIdentifierCell = "HouseTableViewCell"
     
        lazy var nameLabel: UILabel = {

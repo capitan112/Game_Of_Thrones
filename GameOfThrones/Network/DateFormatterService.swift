@@ -7,8 +7,16 @@
 
 import Foundation
 
-extension DateFormatter {
-    static let iso8601Full: DateFormatter = {
+protocol DateFormatterServiceProtocol {
+    var iso8601FullFormatter: DateFormatter { get }
+    var monthYearFormatter: DateFormatter { get }
+}
+
+class DateFormatterService: DateFormatterServiceProtocol {
+    
+    init() { }
+
+    let iso8601FullFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         formatter.calendar = Calendar(identifier: .iso8601)
@@ -17,7 +25,7 @@ extension DateFormatter {
         return formatter
     }()
 
-    static let monthYearFormatter: DateFormatter = {
+    let monthYearFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "MMM yyyy"

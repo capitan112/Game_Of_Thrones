@@ -11,13 +11,13 @@ import PromiseKit
 protocol HousesViewModelType {
     var houses: [House] { get }
     var filteredHouses: [House] { get set }
+    
     func fetchItems() -> Promise<[House]>
     func filtering(with target: String)
     func setUp(houses: [House])
-    func discardSearching()
 }
 
-class HousesViewModel: RootViewModel, HousesViewModelType {
+final class HousesViewModel: RootViewModel, HousesViewModelType {
     
     private(set) var houses: [House] = []
     var filteredHouses: [House] = []
