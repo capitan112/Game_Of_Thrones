@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class Appearance {
+final class Appearance {
     static func setup() {
         // Tab Bar Appearance
         UITabBar.appearance().isTranslucent = false

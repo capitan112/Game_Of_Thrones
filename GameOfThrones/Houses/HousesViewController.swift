@@ -99,6 +99,13 @@ extension HousesViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 extension HousesViewController: UISearchResultsUpdating {

@@ -18,21 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let tabBarController = UITabBarController()
         
-        let housesVC = HousesViewController()
-        let housesNavController = UINavigationController(rootViewController: housesVC)
-        housesNavController.tabBarItem = UITabBarItem(title: "Houses",
-                                                               image: UIImage(named: "tabbarHouses"),
-                                                               selectedImage: UIImage(named: "tabbarHousesActive"))
-                
-        
         let booksVC = BooksViewController()
         let booksNavController = UINavigationController(rootViewController: booksVC)
         booksNavController.tabBarItem = UITabBarItem(title: "Books",
                                                             image: UIImage(named: "tabbarBooks"),
                                                             selectedImage: UIImage(named: "tabbarBooksActive"))
+        let housesVC = HousesViewController()
+        let housesNavController = UINavigationController(rootViewController: housesVC)
+        housesNavController.tabBarItem = UITabBarItem(title: "Houses",
+                                                               image: UIImage(named: "tabbarHouses"),
+                                                               selectedImage: UIImage(named: "tabbarHousesActive"))
         
-
-        tabBarController.viewControllers = [housesNavController, booksNavController]
+        tabBarController.viewControllers = [booksNavController, housesNavController]
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()

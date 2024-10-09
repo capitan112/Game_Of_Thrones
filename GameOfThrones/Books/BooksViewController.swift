@@ -41,7 +41,7 @@ final class BooksViewController: RootViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         tableView.register(BooksTableViewCell.self, forCellReuseIdentifier: BooksTableViewCell.reuseIdentifierCell)
     }
     
@@ -102,5 +102,16 @@ extension BooksViewController: UITableViewDataSource, UITableViewDelegate {
         cell.setupWith(bookViewModelCell: BookViewModelCell(book:  booksViewModel.books[indexPath.row]))
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

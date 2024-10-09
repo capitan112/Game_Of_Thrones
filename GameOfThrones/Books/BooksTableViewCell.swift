@@ -21,7 +21,7 @@ final class BookViewModelCell {
 }
 
 // MARK: - BooksTableViewCell
-class BooksTableViewCell: UITableViewCell {
+final class BooksTableViewCell: UITableViewCell {
     static let reuseIdentifierCell = "BooksTableViewCell"
     
     lazy var titleLabel: UILabel = {
@@ -42,7 +42,7 @@ class BooksTableViewCell: UITableViewCell {
     
     lazy var pagesLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.italicSystemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -77,19 +77,24 @@ class BooksTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, dateLabel, pagesLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 4
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        let titleAndPagesStackView = UIStackView(arrangedSubviews: [titleLabel, pagesLabel])
+        titleAndPagesStackView.axis = .horizontal
+        titleAndPagesStackView.spacing = 8
+        titleAndPagesStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.addSubview(stackView)
+        let verticalStackView = UIStackView(arrangedSubviews: [titleAndPagesStackView, dateLabel])
+        verticalStackView.axis = .vertical
+        verticalStackView.spacing = 4
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(verticalStackView)
         contentView.addSubview(separatorView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
         
         NSLayoutConstraint.activate([
