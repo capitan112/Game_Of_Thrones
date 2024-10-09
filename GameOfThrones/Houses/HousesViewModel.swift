@@ -12,7 +12,7 @@ protocol HousesViewModelType {
     var houses: [House] { get }
     var filteredHouses: [House] { get set }
     
-    func fetchItems() -> Promise<[House]>
+    func fetchHouses() -> Promise<[House]>
     func filtering(with target: String)
     func setUp(houses: [House])
 }
@@ -22,7 +22,7 @@ final class HousesViewModel: RootViewModel, HousesViewModelType {
     private(set) var houses: [House] = []
     var filteredHouses: [House] = []
     
-    func fetchItems() -> Promise<[House]> {
+    func fetchHouses() -> Promise<[House]> {
         do {
             return try networkService.fetchHouses().then { houses in
                 self.houses = houses

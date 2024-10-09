@@ -7,16 +7,10 @@
 
 import UIKit
 
-final class HousesViewController: RootViewController, UITableViewDataSource, UITableViewDelegate {
+final class HousesViewController: RootViewController {
     
     private var housesViewModel: HousesViewModelType
     private let searchController = UISearchController(searchResultsController: nil)
-    
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
     
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -40,8 +34,6 @@ final class HousesViewController: RootViewController, UITableViewDataSource, UIT
         setupBackgroundImage()
         setupTableView()
         setUpSearchController()
-        setupConstraints()
-
         getHouses()
         addActivityIndicator(center: view.center)
     }
@@ -49,12 +41,12 @@ final class HousesViewController: RootViewController, UITableViewDataSource, UIT
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .clear
         tableView.register(HouseTableViewCell.self, forCellReuseIdentifier: HouseTableViewCell.reuseIdentifierCell)
     }
     
     private func setupBackgroundImage() {
         view.addSubview(backgroundImageView)
+        view.sendSubviewToBack(backgroundImageView)
         NSLayoutConstraint.activate([
             backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -72,7 +64,7 @@ final class HousesViewController: RootViewController, UITableViewDataSource, UIT
     }
     
     private func getHouses() {
-        housesViewModel.fetchItems().done { [weak self] houses in
+        housesViewModel.fetchHouses().done { [weak self] houses in
             self?.loadData(houses: houses)
         }.catch { error in
             debugPrint("Failed to fetch houses: \(error)")
@@ -81,37 +73,35 @@ final class HousesViewController: RootViewController, UITableViewDataSource, UIT
     }
     
     func loadData(houses: [House]) {
-        housesViewModel.setUp(houses: houses) 
+        housesViewModel.setUp(houses: houses)
         reload(tableView: tableView)
         stopActivityIndicator()
     }
-    
-    // Set up Auto Layout constraints
-    func setupConstraints() {
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    // MARK: - UITableViewDataSource Methods
-    
+}
+
+// MARK: - UITableViewDataSource Methods
+extension HousesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return housesViewModel.filteredHouses.count
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            cell.alpha = 1
+        })
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HouseTableViewCell.reuseIdentifierCell, for: indexPath) as! HouseTableViewCell
         cell.configure(with: HouseViewModelCell(house: housesViewModel.filteredHouses[indexPath.row]))
+        
         return cell
     }
 }
 
 extension HousesViewController: UISearchResultsUpdating {
-    
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         housesViewModel.filtering(with: searchText)

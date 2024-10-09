@@ -9,6 +9,33 @@ import Foundation
 import UIKit
 
 class RootViewController: UIViewController {
+    
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+        setupConstraintsForTableView()
+    }
+    
+    private func setupTableView() {
+        tableView.backgroundColor = .clear
+    }
+    
+    func setupConstraintsForTableView() {
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
     private var activityIndicator: UIActivityIndicatorView?
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

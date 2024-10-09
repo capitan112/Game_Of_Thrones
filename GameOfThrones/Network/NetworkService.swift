@@ -10,6 +10,7 @@ import PromiseKit
 
 protocol NetworkServiceProtocol {
     func fetchHouses() throws -> Promise<[House]>
+    func fetchBooks() throws -> Promise<[Book]>
 }
 
 enum NetworkError: Error {
@@ -31,6 +32,14 @@ class NetworkService: NetworkServiceProtocol {
     func fetchHouses() throws -> Promise<[House]> {
         
         guard let url = urlFromParameters(path: RequestConstant.Endpoints.houses) else {
+            throw NetworkError.badUrl
+        }
+        
+        return fetch(from: url)
+    }
+    
+    func fetchBooks() throws -> Promise<[Book]> {
+        guard let url = urlFromParameters(path: RequestConstant.Endpoints.books) else {
             throw NetworkError.badUrl
         }
         
