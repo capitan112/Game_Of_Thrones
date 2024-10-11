@@ -12,22 +12,22 @@ protocol JSONDecoderServiceProtocol {
 }
 
 // MARK: - JSONDecoderService
-class JSONDecoderService: JSONDecoderServiceProtocol {
 
+class JSONDecoderService: JSONDecoderServiceProtocol {
     private let dateFormatterService: DateFormatterServiceProtocol
 
     init(dateFormatterService: DateFormatterServiceProtocol = DateFormatterService()) {
         self.dateFormatterService = dateFormatterService
     }
-    
+
     func getDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .formatted(dateFormatterService.iso8601FullFormatter)
         return decoder
     }
-    
-    func decode<T: Decodable>(_ data: Data, as type: T.Type) throws -> T {
+
+    func decode<T: Decodable>(_ data: Data, as _: T.Type) throws -> T {
         let decoder = getDecoder()
         return try decoder.decode(T.self, from: data)
     }

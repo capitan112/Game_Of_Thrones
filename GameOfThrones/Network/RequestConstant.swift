@@ -7,15 +7,14 @@
 
 import Foundation
 
-struct RequestConstant {
-    
-    struct Server {
+enum RequestConstant {
+    enum Server {
         static let scheme = "https"
         static let host = "anapioficeandfire.com"
         static let basePath = "/api"
     }
-    
-    struct Endpoints {
+
+    enum Endpoints {
         static let books = "\(Server.basePath)/books"
         static let houses = "\(Server.basePath)/houses"
         static let characters = "\(Server.basePath)/characters"

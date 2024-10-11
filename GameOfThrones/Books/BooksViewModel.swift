@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import PromiseKit
+import UIKit
 
 protocol BooksViewModelType {
     var books: [Book] { get }
@@ -17,7 +17,7 @@ protocol BooksViewModelType {
 
 final class BooksViewModel: RootViewModel, BooksViewModelType {
     private(set) var books: [Book] = []
-    
+
     func fetchBooks() -> Promise<[Book]> {
         do {
             return try networkService.fetchBooks().then { books in
@@ -28,7 +28,7 @@ final class BooksViewModel: RootViewModel, BooksViewModelType {
             return Promise(error: error)
         }
     }
-    
+
     func setUp(books: [Book]) {
         self.books = books
     }

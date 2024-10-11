@@ -11,7 +11,7 @@ struct House: Decodable {
     let name: String
     let region: String
     let words: String
-    
+
     enum CodingKeys: String, CodingKey {
         case name
         case region

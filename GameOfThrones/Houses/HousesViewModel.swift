@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  HousesViewModel.swift
 //  GameOfThrones
 //
 //  Created by Oleksiy Chebotarov on 08/10/2024.
@@ -11,17 +11,16 @@ import PromiseKit
 protocol HousesViewModelType {
     var houses: [House] { get }
     var filteredHouses: [House] { get set }
-    
+
     func fetchHouses() -> Promise<[House]>
     func filtering(with target: String)
     func setUp(houses: [House])
 }
 
 final class HousesViewModel: RootViewModel, HousesViewModelType {
-    
     private(set) var houses: [House] = []
     var filteredHouses: [House] = []
-    
+
     func fetchHouses() -> Promise<[House]> {
         do {
             return try networkService.fetchHouses().then { houses in
@@ -36,7 +35,7 @@ final class HousesViewModel: RootViewModel, HousesViewModelType {
 
     func setUp(houses: [House]) {
         self.houses = houses
-        self.filteredHouses = houses
+        filteredHouses = houses
     }
 
     func discardSearching() {
@@ -54,4 +53,3 @@ final class HousesViewModel: RootViewModel, HousesViewModelType {
         }
     }
 }
-

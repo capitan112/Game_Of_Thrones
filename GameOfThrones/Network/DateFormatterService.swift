@@ -1,5 +1,5 @@
 //
-//  DateFormatter+Iso8601Full.swift
+//  DateFormatterService.swift
 //  GameOfThrones
 //
 //  Created by Oleksiy Chebotarov on 08/10/2024.
@@ -13,8 +13,7 @@ protocol DateFormatterServiceProtocol {
 }
 
 class DateFormatterService: DateFormatterServiceProtocol {
-    
-    init() { }
+    init() {}
 
     let iso8601FullFormatter: DateFormatter = {
         let formatter = DateFormatter()

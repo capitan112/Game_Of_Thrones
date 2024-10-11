@@ -1,5 +1,5 @@
 //
-//  RootViewController.swift
+//  RootViewModel.swift
 //  GameOfThrones
 //
 //  Created by Oleksiy Chebotarov on 08/10/2024.

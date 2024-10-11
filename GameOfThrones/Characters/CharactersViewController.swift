@@ -1,26 +1,27 @@
 //
-//  HousesViewController.swift
+//  CharactersViewController.swift
 //  GameOfThrones
 //
-//  Created by Oleksiy Chebotarov on 08/10/2024.
+//  Created by Oleksiy Chebotarov on 11/10/2024.
 //
 
+import Foundation
 import UIKit
 
-final class HousesViewController: RootViewController {
-    private var housesViewModel: HousesViewModelType
+final class CharactersViewController: RootViewController {
+    private var charactersViewModel: CharactersViewModelType
     private let searchController = UISearchController(searchResultsController: nil)
 
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "imgHouses")
+        imageView.image = UIImage(named: "imgCharacters")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
-    init(viewModel: HousesViewModelType = HousesViewModel()) {
-        housesViewModel = viewModel
+    init(viewModel: CharactersViewModelType = CharactersViewModel()) {
+        charactersViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,8 +42,8 @@ final class HousesViewController: RootViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(HouseTableViewCell.self, forCellReuseIdentifier: HouseTableViewCell.reuseIdentifierCell)
-        tableView.accessibilityIdentifier = "HousesTableView"
+        tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.reuseIdentifierCell)
+        tableView.accessibilityIdentifier = "CharactersTableView" 
     }
 
     private func setupBackgroundImage() {
@@ -59,22 +60,22 @@ final class HousesViewController: RootViewController {
     private func setUpSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Houses"
+        searchController.searchBar.placeholder = "Search Characters"
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
 
     private func getHouses() {
-        housesViewModel.fetchHouses().done { [weak self] houses in
-            self?.loadData(houses: houses)
+        charactersViewModel.fetchCharacters().done { [weak self] characters in
+            self?.loadData(characters: characters)
         }.catch { error in
             debugPrint("Failed to fetch houses: \(error)")
             self.showAlertAndStopActivityIndicator()
         }
     }
 
-    func loadData(houses: [House]) {
-        housesViewModel.setUp(houses: houses)
+    func loadData(characters: [Character]) {
+        charactersViewModel.setUp(characters: characters)
         reload(tableView: tableView)
         stopActivityIndicator()
     }
@@ -82,9 +83,9 @@ final class HousesViewController: RootViewController {
 
 // MARK: - UITableViewDataSource Methods
 
-extension HousesViewController: UITableViewDataSource, UITableViewDelegate {
+extension CharactersViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return housesViewModel.filteredHouses.count
+        return charactersViewModel.filteredCharacters.count
     }
 
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
@@ -96,8 +97,8 @@ extension HousesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: HouseTableViewCell.reuseIdentifierCell, for: indexPath) as! HouseTableViewCell
-        cell.configure(with: HouseViewModelCell(house: housesViewModel.filteredHouses[indexPath.row]))
+        let cell = tableView.dequeueReusableCell(withIdentifier: CharacterTableViewCell.reuseIdentifierCell, for: indexPath) as! CharacterTableViewCell
+        cell.configure(with: CharacterViewModelCell(character: charactersViewModel.filteredCharacters[indexPath.row]))
 
         return cell
     }
@@ -110,14 +111,14 @@ extension HousesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return 80
+        return 120
     }
 }
 
-extension HousesViewController: UISearchResultsUpdating {
+extension CharactersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        housesViewModel.filtering(with: searchText)
+        charactersViewModel.filtering(with: searchText)
         tableView.reloadData()
     }
 }
