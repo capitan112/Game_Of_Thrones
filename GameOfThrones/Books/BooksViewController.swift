@@ -36,6 +36,8 @@ final class BooksViewController: RootViewController {
         super.viewDidLoad()
         setupTableView()
         setupBackgroundImage()
+        addActivityIndicator(center: view.center)
+        startActivityIndicator()
         getBooks()
     }
 

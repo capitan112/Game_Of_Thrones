@@ -62,7 +62,7 @@ class RootViewController: UIViewController {
 
     // MARK: UIActivityIndicatorView methods
 
-    private func activityIndicator(style: UIActivityIndicatorView.Style = .large,
+    private func activityIndicator(style: UIActivityIndicatorView.Style = .medium,
                                    frame: CGRect? = nil,
                                    center: CGPoint? = nil) -> UIActivityIndicatorView
     {
@@ -80,7 +80,7 @@ class RootViewController: UIViewController {
         return activityIndicatorView
     }
 
-    func addActivityIndicator(style: UIActivityIndicatorView.Style = .large,
+    func addActivityIndicator(style: UIActivityIndicatorView.Style = .medium,
                               frame _: CGRect? = nil,
                               center: CGPoint? = nil)
     {

@@ -34,8 +34,9 @@ final class HousesViewController: RootViewController {
         setupBackgroundImage()
         setupTableView()
         setUpSearchController()
-        getHouses()
         addActivityIndicator(center: view.center)
+        startActivityIndicator()
+        getHouses()
     }
 
     private func setupTableView() {
@@ -61,6 +62,7 @@ final class HousesViewController: RootViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Houses"
         navigationItem.searchController = searchController
+        navigationItem.preferredSearchBarPlacement = .stacked
         definesPresentationContext = true
     }
 

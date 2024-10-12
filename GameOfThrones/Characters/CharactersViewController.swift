@@ -35,8 +35,9 @@ final class CharactersViewController: RootViewController {
         setupBackgroundImage()
         setupTableView()
         setUpSearchController()
-        getHouses()
         addActivityIndicator(center: view.center)
+        startActivityIndicator()
+        getCharacters()
     }
 
     private func setupTableView() {
@@ -62,10 +63,11 @@ final class CharactersViewController: RootViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Characters"
         navigationItem.searchController = searchController
+        navigationItem.preferredSearchBarPlacement = .stacked
         definesPresentationContext = true
     }
 
-    private func getHouses() {
+    private func getCharacters() {
         charactersViewModel.fetchCharacters().done { [weak self] characters in
             self?.loadData(characters: characters)
         }.catch { error in
