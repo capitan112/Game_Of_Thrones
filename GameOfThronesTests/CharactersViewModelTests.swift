@@ -4,12 +4,11 @@
 //
 //  Created by Oleksiy Chebotarov on 11/10/2024.
 //
-import XCTest
-import PromiseKit
 @testable import GameOfThrones
+import PromiseKit
+import XCTest
 
 final class CharactersViewModelTests: XCTestCase {
-
     var viewModel: CharactersViewModel!
     var mockNetworkService: MockNetworkService!
 
@@ -29,7 +28,7 @@ final class CharactersViewModelTests: XCTestCase {
         // Given
         let mockCharacters = [
             Character(url: "1", name: "Jon Snow", gender: "Male", culture: "Northmen", born: "In 283 AC", died: "N/A", aliases: ["Lord Snow"], father: "", mother: "", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Kit Harington"]),
-            Character(url: "2", name: "Daenerys Targaryen", gender: "Female", culture: "Valyrian", born: "In 284 AC", died: "In 305 AC", aliases: ["Khaleesi"], father: "", mother: "", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Emilia Clarke"])
+            Character(url: "2", name: "Daenerys Targaryen", gender: "Female", culture: "Valyrian", born: "In 284 AC", died: "In 305 AC", aliases: ["Khaleesi"], father: "", mother: "", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Emilia Clarke"]),
         ]
         mockNetworkService.mockCharacters = mockCharacters
 
@@ -80,7 +79,7 @@ final class CharactersViewModelTests: XCTestCase {
     func testFilteringWithEmptyTarget() {
         // Given
         let mockCharacters = [
-            Character(url: "1", name: "Arya Stark", gender: "Female", culture: "Northmen", born: "In 289 AC", died: "N/A", aliases: ["No One"], father: "Eddard Stark", mother: "Catelyn Stark", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Maisie Williams"])
+            Character(url: "1", name: "Arya Stark", gender: "Female", culture: "Northmen", born: "In 289 AC", died: "N/A", aliases: ["No One"], father: "Eddard Stark", mother: "Catelyn Stark", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Maisie Williams"]),
         ]
         viewModel.setUp(characters: mockCharacters)
 
@@ -95,7 +94,7 @@ final class CharactersViewModelTests: XCTestCase {
         // Given
         let mockCharacters = [
             Character(url: "1", name: "Arya Stark", gender: "Female", culture: "Northmen", born: "In 289 AC", died: "N/A", aliases: ["No One"], father: "Eddard Stark", mother: "Catelyn Stark", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Maisie Williams"]),
-            Character(url: "2", name: "Sansa Stark", gender: "Female", culture: "Northmen", born: "In 286 AC", died: "N/A", aliases: ["Little Bird"], father: "Eddard Stark", mother: "Catelyn Stark", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Sophie Turner"])
+            Character(url: "2", name: "Sansa Stark", gender: "Female", culture: "Northmen", born: "In 286 AC", died: "N/A", aliases: ["Little Bird"], father: "Eddard Stark", mother: "Catelyn Stark", spouse: "", allegiances: [], books: [], povBooks: [], tvSeries: ["Season 1"], playedBy: ["Sophie Turner"]),
         ]
         viewModel.setUp(characters: mockCharacters)
 

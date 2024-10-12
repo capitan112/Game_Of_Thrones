@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct House: Decodable {
+struct House: Codable {
     let name: String
     let region: String
     let words: String

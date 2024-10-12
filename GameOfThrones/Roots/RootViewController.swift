@@ -35,7 +35,7 @@ class RootViewController: UIViewController {
         ])
     }
 
-    private var activityIndicator: UIActivityIndicatorView?
+    private(set) var activityIndicator: UIActivityIndicatorView?
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent

@@ -45,7 +45,10 @@ final class CharacterViewModelCell {
     var seasons: String {
         var result = [String]()
         for index in 0 ..< character.tvSeries.count {
-            result.append(seasonDict[character.tvSeries[index]]!)
+            if let season = seasonDict[character.tvSeries[index]] {
+                result.append(season)
+            }
+
             if index < character.tvSeries.count - 1 {
                 result[index] += ","
             }

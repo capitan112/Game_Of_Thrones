@@ -14,20 +14,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Appearance.setup()
         window = UIWindow(frame: UIScreen.main.bounds)
 
+        if CommandLine.arguments.contains("--uitesting") {
+            window?.rootViewController = createTabBar(with: MockNetworkService())
+        } else {
+            window?.rootViewController = createTabBar()
+        }
+
+        window?.makeKeyAndVisible()
+
+        return true
+    }
+
+    func createTabBar(with networkService: NetworkServiceProtocol = NetworkService()) -> UITabBarController {
         let tabBarController = UITabBarController()
 
-        let booksVC = BooksViewController()
+        let booksVC = BooksViewController(viewModel: BooksViewModel(networkService: networkService))
         let booksNavController = UINavigationController(rootViewController: booksVC)
         booksNavController.tabBarItem = UITabBarItem(title: "Books",
                                                      image: UIImage(named: "tabbarBooks"),
                                                      selectedImage: UIImage(named: "tabbarBooksActive"))
-        let housesVC = HousesViewController()
+        let housesVC = HousesViewController(viewModel: HousesViewModel(networkService: networkService))
         let housesNavController = UINavigationController(rootViewController: housesVC)
         housesNavController.tabBarItem = UITabBarItem(title: "Houses",
                                                       image: UIImage(named: "tabbarHouses"),
                                                       selectedImage: UIImage(named: "tabbarHousesActive"))
 
-        let charactersVC = CharactersViewController()
+        let charactersVC = CharactersViewController(viewModel: CharactersViewModel(networkService: networkService))
         let charactersNavController = UINavigationController(rootViewController: charactersVC)
         charactersNavController.tabBarItem = UITabBarItem(title: "Characters",
                                                           image: UIImage(named: "tabbarCharacters"),
@@ -35,9 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         tabBarController.viewControllers = [booksNavController, housesNavController, charactersNavController]
 
-        window?.rootViewController = tabBarController
-        window?.makeKeyAndVisible()
-
-        return true
+        return tabBarController
     }
 }

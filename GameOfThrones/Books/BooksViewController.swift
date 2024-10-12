@@ -22,8 +22,8 @@ final class BooksViewController: RootViewController {
         return imageView
     }()
 
-    init(booksViewModel: BooksViewModelType = BooksViewModel()) {
-        self.booksViewModel = booksViewModel
+    init(viewModel: BooksViewModelType = BooksViewModel()) {
+        booksViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 

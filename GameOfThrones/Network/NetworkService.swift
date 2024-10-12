@@ -9,23 +9,41 @@ import Foundation
 import PromiseKit
 
 protocol NetworkServiceProtocol {
+    init(decoderService: JSONDecoderServiceProtocol)
     func fetchHouses() throws -> Promise<[House]>
     func fetchBooks() throws -> Promise<[Book]>
     func fetchCharacters() throws -> Promise<[Character]>
 }
 
-enum NetworkError: Error {
+enum NetworkError: Error, Equatable {
     case badUrl
     case decodingError(Error)
     case networkError(Error)
     case invalidStatusCode(Int)
     case noData
+
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (.badUrl, .badUrl):
+            return true
+        case (.noData, .noData):
+            return true
+        case let (.invalidStatusCode(lhsCode), .invalidStatusCode(rhsCode)):
+            return lhsCode == rhsCode
+        case let (.decodingError(lhsError), .decodingError(rhsError)):
+            return lhsError.localizedDescription == rhsError.localizedDescription
+        case let (.networkError(lhsError), .networkError(rhsError)):
+            return lhsError.localizedDescription == rhsError.localizedDescription
+        default:
+            return false
+        }
+    }
 }
 
 class NetworkService: NetworkServiceProtocol {
     private let decoderService: JSONDecoderServiceProtocol
 
-    init(decoderService: JSONDecoderServiceProtocol = JSONDecoderService()) {
+    required init(decoderService: JSONDecoderServiceProtocol = JSONDecoderService()) {
         self.decoderService = decoderService
     }
 

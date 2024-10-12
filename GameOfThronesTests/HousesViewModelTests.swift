@@ -5,12 +5,11 @@
 //  Created by Oleksiy Chebotarov on 11/10/2024.
 //
 
-import XCTest
-import PromiseKit
 @testable import GameOfThrones
+import PromiseKit
+import XCTest
 
 final class HousesViewModelTests: XCTestCase {
-
     var viewModel: HousesViewModel!
     var mockNetworkService: MockNetworkService!
 
@@ -30,7 +29,7 @@ final class HousesViewModelTests: XCTestCase {
         // Given
         mockNetworkService.mockHouses = [
             House(name: "Stark", region: "The North", words: "Winter is Coming"),
-            House(name: "Lannister", region: "The Westerlands", words: "Hear Me Roar")
+            House(name: "Lannister", region: "The Westerlands", words: "Hear Me Roar"),
         ]
 
         // When
@@ -75,5 +74,75 @@ final class HousesViewModelTests: XCTestCase {
         }
 
         waitForExpectations(timeout: 2.0, handler: nil)
+    }
+
+    func testFilteringWithValidInput() {
+        // Given
+        let mockHouses: [House] = [
+            House(name: "House Stark", region: "The North", words: "Winter is Coming"),
+            House(name: "House Lannister", region: "The Westerlands", words: "Hear Me Roar"),
+            House(name: "House Targaryen", region: "Essos", words: "Fire and Blood"),
+        ]
+        viewModel.setUp(houses: mockHouses)
+
+        // When
+        viewModel.filtering(with: "Stark")
+
+        // Then
+        XCTAssertEqual(viewModel.filteredHouses.count, 1)
+        XCTAssertEqual(viewModel.filteredHouses.first?.name, "House Stark")
+    }
+
+    func testFilteringWithEmptyString() {
+        // Given
+        let mockHouses: [House] = [
+            House(name: "House Stark", region: "The North", words: "Winter is Coming"),
+            House(name: "House Lannister", region: "The Westerlands", words: "Hear Me Roar"),
+            House(name: "House Targaryen", region: "Essos", words: "Fire and Blood"),
+        ]
+        viewModel.setUp(houses: mockHouses)
+
+        // When
+        viewModel.filtering(with: "Stark")
+        viewModel.filtering(with: "") // This should call discardSearching()
+
+        // Then
+        XCTAssertEqual(viewModel.filteredHouses.count, mockHouses.count)
+        XCTAssertEqual(viewModel.filteredHouses.map { $0.name }, mockHouses.map { $0.name })
+    }
+
+    func testFilteringWithNoMatch() {
+        // Given
+        let mockHouses: [House] = [
+            House(name: "House Stark", region: "The North", words: "Winter is Coming"),
+            House(name: "House Lannister", region: "The Westerlands", words: "Hear Me Roar"),
+            House(name: "House Targaryen", region: "Essos", words: "Fire and Blood"),
+        ]
+        viewModel.setUp(houses: mockHouses)
+
+        // When
+        viewModel.filtering(with: "Arryn") // No house with this name
+
+        // Then
+        XCTAssertEqual(viewModel.filteredHouses.count, 0)
+    }
+
+    func testDiscardSearching() {
+        // Given
+        let mockHouses: [House] = [
+            House(name: "House Stark", region: "The North", words: "Winter is Coming"),
+            House(name: "House Lannister", region: "The Westerlands", words: "Hear Me Roar"),
+            House(name: "House Targaryen", region: "Essos", words: "Fire and Blood"),
+        ]
+        viewModel.setUp(houses: mockHouses)
+
+        viewModel.filtering(with: "Lannister")
+
+        // When
+        viewModel.discardSearching()
+
+        // Then
+        XCTAssertEqual(viewModel.filteredHouses.count, mockHouses.count)
+        XCTAssertEqual(viewModel.filteredHouses.map { $0.name }, mockHouses.map { $0.name })
     }
 }

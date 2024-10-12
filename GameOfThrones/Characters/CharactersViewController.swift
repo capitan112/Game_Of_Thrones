@@ -43,7 +43,7 @@ final class CharactersViewController: RootViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.reuseIdentifierCell)
-        tableView.accessibilityIdentifier = "CharactersTableView" 
+        tableView.accessibilityIdentifier = "CharactersTableView"
     }
 
     private func setupBackgroundImage() {

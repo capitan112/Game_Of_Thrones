@@ -5,12 +5,11 @@
 //  Created by Oleksiy Chebotarov on 11/10/2024.
 //
 
-import XCTest
-import PromiseKit
 @testable import GameOfThrones
+import PromiseKit
+import XCTest
 
 final class BooksViewModelTests: XCTestCase {
-
     var viewModel: BooksViewModel!
     var mockNetworkService: MockNetworkService!
 
@@ -30,7 +29,7 @@ final class BooksViewModelTests: XCTestCase {
         // Given
         let mockBooks = [
             Book(url: "1", name: "A Game of Thrones", isbn: "9780553103540", authors: ["George R. R. Martin"], numberOfPages: 694, publisher: "Bantam Books", country: "United States", mediaType: "Hardcover", released: Date(), characters: []),
-            Book(url: "2", name: "A Clash of Kings", isbn: "9780553108033", authors: ["George R. R. Martin"], numberOfPages: 768, publisher: "Bantam Books", country: "United States", mediaType: "Hardcover", released: Date(), characters: [])
+            Book(url: "2", name: "A Clash of Kings", isbn: "9780553108033", authors: ["George R. R. Martin"], numberOfPages: 768, publisher: "Bantam Books", country: "United States", mediaType: "Hardcover", released: Date(), characters: []),
         ]
         mockNetworkService.mockBooks = mockBooks
 
@@ -66,13 +65,14 @@ final class BooksViewModelTests: XCTestCase {
         // When
         let expectation = self.expectation(description: "fetchBooks")
 
-        viewModel.fetchBooks().catch { error in
+        viewModel.fetchBooks().done { _ in
+            XCTFail("Expected fetchBooks to fail, but it succeeded.")
+        }.catch { error in
             // Then
-            XCTAssertNotNil(error)
-            XCTAssertTrue(self.viewModel.books.isEmpty)
+            XCTAssertNotNil(error, "Expected an error, but got nil.")
+            XCTAssertTrue(self.viewModel.books.isEmpty, "Expected books array to be empty on failure.")
             expectation.fulfill()
         }
-
         waitForExpectations(timeout: 2.0, handler: nil)
     }
 
@@ -80,7 +80,7 @@ final class BooksViewModelTests: XCTestCase {
         // Given
         let mockBooks = [
             Book(url: "1", name: "A Game of Thrones", isbn: "9780553103540", authors: ["George R. R. Martin"], numberOfPages: 694, publisher: "Bantam Books", country: "United States", mediaType: "Hardcover", released: Date(), characters: []),
-            Book(url: "2", name: "A Clash of Kings", isbn: "9780553108033", authors: ["George R. R. Martin"], numberOfPages: 768, publisher: "Bantam Books", country: "United States", mediaType: "Hardcover", released: Date(), characters: [])
+            Book(url: "2", name: "A Clash of Kings", isbn: "9780553108033", authors: ["George R. R. Martin"], numberOfPages: 768, publisher: "Bantam Books", country: "United States", mediaType: "Hardcover", released: Date(), characters: []),
         ]
 
         // When
@@ -92,4 +92,3 @@ final class BooksViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.books[1].name, "A Clash of Kings")
     }
 }
-

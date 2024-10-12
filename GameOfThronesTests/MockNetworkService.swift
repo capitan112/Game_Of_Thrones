@@ -6,42 +6,74 @@
 //
 
 import Foundation
-import PromiseKit
 @testable import GameOfThrones
+import PromiseKit
 
 class MockNetworkService: NetworkServiceProtocol {
+    private var decoderService: JSONDecoderServiceProtocol
+
+    required init(decoderService: JSONDecoderServiceProtocol = JSONDecoderService()) {
+        self.decoderService = decoderService
+    }
 
     var mockHouses: [House] = []
     var mockBooks: [Book] = []
     var mockCharacters: [Character] = []
-    
+
     var shouldFail = false
     var errorToReturn: NetworkError?
 
     func fetchHouses() throws -> Promise<[House]> {
+        if shouldFail {
+            if let error = errorToReturn {
+                return Promise { seal in
+                    seal.reject(error)
+                }
+            } else {
+                return Promise { seal in
+                    seal.reject(NetworkError.badUrl)
+                }
+            }
+        }
+
         return simulateFetchResult(for: mockHouses)
     }
 
     func fetchBooks() throws -> Promise<[Book]> {
+        if shouldFail {
+            if let error = errorToReturn {
+                return Promise { seal in
+                    seal.reject(error)
+                }
+            } else {
+                return Promise { seal in
+                    seal.reject(NetworkError.badUrl)
+                }
+            }
+        }
+
         return simulateFetchResult(for: mockBooks)
     }
 
     func fetchCharacters() throws -> Promise<[Character]> {
+        if shouldFail {
+            if let error = errorToReturn {
+                return Promise { seal in
+                    seal.reject(error)
+                }
+            } else {
+                return Promise { seal in
+                    seal.reject(NetworkError.badUrl)
+                }
+            }
+        }
+
         return simulateFetchResult(for: mockCharacters)
     }
 
-    // Helper method to simulate fetch results
     private func simulateFetchResult<T>(for mockData: [T]) -> Promise<[T]> {
         return Promise { seal in
-            if shouldFail {
-                if let error = errorToReturn {
-                    seal.reject(error)
-                } else {
-                    seal.reject(NetworkError.networkError(NSError(domain: "MockError", code: -1, userInfo: nil)))
-                }
-            } else {
-                seal.fulfill(mockData)
-            }
+            seal.fulfill(mockData)
         }
     }
 }
