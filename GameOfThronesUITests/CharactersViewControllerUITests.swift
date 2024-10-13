@@ -34,7 +34,6 @@ final class CharactersViewControllerUITests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
 
         XCTAssertTrue(charactersTableView.exists, "The characters table view should exist.")
-
         XCTAssertGreaterThan(charactersTableView.cells.count, 0, "The table view should contain at least one cell.")
 
         let firstCell = charactersTableView.cells.element(boundBy: 0)

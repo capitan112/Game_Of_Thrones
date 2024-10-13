@@ -35,7 +35,6 @@ final class HousesViewControllerUITests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
 
         XCTAssertTrue(housesTableView.exists, "The houses table view should exist.")
-
         XCTAssertGreaterThan(housesTableView.cells.count, 0, "The table view should contain at least one cell.")
 
         let firstCell = housesTableView.cells.element(boundBy: 0)

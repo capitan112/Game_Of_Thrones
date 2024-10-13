@@ -35,7 +35,6 @@ final class BooksViewControllerUITests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
 
         XCTAssertTrue(booksTableView.exists, "The books table view should exist.")
-
         XCTAssertGreaterThan(booksTableView.cells.count, 0, "The table view should contain at least one cell.")
 
         let firstCell = booksTableView.cells.element(boundBy: 0)
