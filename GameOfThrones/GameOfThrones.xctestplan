@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "4E47F15F-92EF-46A6-8BE2-4D6BD6D41EF3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:GameOfThrones.xcodeproj",
+      "identifier" : "C91103B52CB58E9400779AC4",
+      "name" : "GameOfThrones"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GameOfThrones.xcodeproj",
+        "identifier" : "C91103CB2CB58E9500779AC4",
+        "name" : "GameOfThronesTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GameOfThrones.xcodeproj",
+        "identifier" : "C91103D52CB58E9600779AC4",
+        "name" : "GameOfThronesUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

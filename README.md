@@ -1,5 +1,7 @@
 Language: Swift, UIKit
 
+Open in Xcode 16
+
 Used:
 	PromiseKit, SPM
 	MVVM architecture

@@ -31,6 +31,7 @@
 		C91103B62CB58E9400779AC4 /* GameOfThrones.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameOfThrones.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C91103CC2CB58E9500779AC4 /* GameOfThronesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfThronesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C91103D62CB58E9600779AC4 /* GameOfThronesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfThronesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C93E31F82CC7D65E00B6DCD1 /* GameOfThrones.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = GameOfThrones.xctestplan; path = GameOfThrones/GameOfThrones.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -78,6 +79,7 @@
 		C91103AD2CB58E9400779AC4 = {
 			isa = PBXGroup;
 			children = (
+				C93E31F82CC7D65E00B6DCD1 /* GameOfThrones.xctestplan */,
 				C91103B82CB58E9400779AC4 /* GameOfThrones */,
 				C91103CF2CB58E9600779AC4 /* GameOfThronesTests */,
 				C91103D92CB58E9600779AC4 /* GameOfThronesUITests */,
