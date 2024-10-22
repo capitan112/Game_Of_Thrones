@@ -11,6 +11,7 @@ import UIKit
 final class CharactersViewController: RootViewController {
     private var charactersViewModel: CharactersViewModelType
     private let searchController = UISearchController(searchResultsController: nil)
+    private var searchWorkItem: DispatchWorkItem?
 
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -120,7 +121,15 @@ extension CharactersViewController: UITableViewDataSource, UITableViewDelegate {
 extension CharactersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        charactersViewModel.filtering(with: searchText)
-        tableView.reloadData()
+
+        searchWorkItem?.cancel()
+
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.charactersViewModel.filtering(with: searchText)
+            self?.tableView.reloadData()
+        }
+
+        searchWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
 }

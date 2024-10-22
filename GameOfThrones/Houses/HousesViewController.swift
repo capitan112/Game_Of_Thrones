@@ -10,6 +10,7 @@ import UIKit
 final class HousesViewController: RootViewController {
     private var housesViewModel: HousesViewModelType
     private let searchController = UISearchController(searchResultsController: nil)
+    private var searchWorkItem: DispatchWorkItem?
 
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -119,7 +120,15 @@ extension HousesViewController: UITableViewDataSource, UITableViewDelegate {
 extension HousesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        housesViewModel.filtering(with: searchText)
-        tableView.reloadData()
+
+        searchWorkItem?.cancel()
+
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.housesViewModel.filtering(with: searchText)
+            self?.tableView.reloadData()
+        }
+
+        searchWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
 }
